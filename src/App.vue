@@ -1,30 +1,120 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div class="app">
+    <form class="form">
+      <h4>Создание поста</h4>
+      <input
+        v-bind:value="title"
+        @input="inputTitle"
+        class="input"
+        type="text"
+        placeholder="Название"
+      />
+      <input
+        v-bind:value="body"
+        @input="inputBody"
+        class="input"
+        type="text"
+        placeholder="Описание"
+      />
+      <button class="button" @click.prevent="createPost">Создать</button>
+    </form>
+    <div class="post" v-for="post in posts" v-bind:key="post.id">
+      <div><strong>Название:</strong> {{ post.title }}</div>
+      <div><strong>Описание:</strong> {{ post.body }}</div>
+    </div>
+  </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  data() {
+    return {
+      posts: [
+        {
+          id: 1,
+          title: "Javascript",
+          body: "Описание поста",
+        },
+        {
+          id: 2,
+          title: "Javascript 2",
+          body: "Описание поста 2",
+        },
+        {
+          id: 3,
+          title: "Javascript 3",
+          body: "Описание поста 3",
+        },
+        {
+          id: 4,
+          title: "Javascript 4",
+          body: "Описание поста 4",
+        },
+      ],
+      title: "",
+      body: "",
+    };
+  },
+  methods: {
+    createPost() {
+      const newPost = {
+        id: Date.now(),
+        title: this.title,
+        body: this.body,
+      };
+      this.posts.push(newPost);
+      this.title = "";
+      this.body = "";
+    },
+    inputTitle(evt: Event) {
+      const element = evt.target as HTMLInputElement;
+      this.title = element.value;
+    },
+    inputBody(evt: Event) {
+      const element = evt.target as HTMLInputElement;
+      this.body = element.value;
+    },
+  },
+});
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
+.app {
+  padding: 20px;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.post {
+  padding: 15px;
+  border: 2px solid teal;
+  margin-top: 15px;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid teal;
+  padding: 10px 15px;
+  margin-top: 15px;
+}
+
+.button {
+  margin-top: 15px;
+  align-self: flex-end;
+  padding: 10px 15px;
+  background: none;
+  color: teal;
+  border: 1px solid teal;
 }
 </style>
