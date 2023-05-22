@@ -23,28 +23,7 @@ export default defineComponent({
   },
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          title: "Javascript",
-          body: "Описание поста",
-        },
-        {
-          id: 2,
-          title: "Javascript 2",
-          body: "Описание поста 2",
-        },
-        {
-          id: 3,
-          title: "Javascript 3",
-          body: "Описание поста 3",
-        },
-        {
-          id: 4,
-          title: "Javascript 4",
-          body: "Описание поста 4",
-        },
-      ],
+      posts: [] as Post[],
       dialogVisible: false,
     };
   },
@@ -64,7 +43,7 @@ export default defineComponent({
         const response = await axios.get(
           "https://jsonplaceholder.typicode.com/posts?_limit=10"
         );
-        console.log(response);
+        this.posts = response.data;
       } catch (e) {
         alert(`Ошибка! ${e}`);
       }
