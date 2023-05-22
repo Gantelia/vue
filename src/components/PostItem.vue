@@ -5,7 +5,9 @@
       <div><strong>Описание:</strong> {{ post.body }}</div>
     </div>
     <div class="post__buttons">
-      <button>Удалить</button>
+      <my-button @click="$emit('remove', post)" type="button"
+        >Удалить</my-button
+      >
     </div>
   </div>
 </template>
@@ -13,6 +15,7 @@
 <script lang="ts">
 import { PropType, defineComponent } from "vue";
 import type { Post } from "@/types/posts";
+import MyButton from "./UI/MyButton.vue";
 
 export default defineComponent({
   props: {
@@ -21,6 +24,7 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ["remove"],
 });
 </script>
 

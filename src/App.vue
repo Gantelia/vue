@@ -1,7 +1,11 @@
 <template>
   <div class="app">
-    <post-form @create="createPost" />
-    <post-list :posts="posts" />
+    <h1>Страница с постами</h1>
+    <my-button type="button" @click="showDialog">Создать пост</my-button>
+    <my-dialog v-model:show="dialogVisible">
+      <post-form @create="createPost" />
+    </my-dialog>
+    <post-list :posts="posts" @remove="removePost" />
   </div>
 </template>
 
@@ -40,12 +44,21 @@ export default defineComponent({
           body: "Описание поста 4",
         },
       ],
+      dialogVisible: false,
     };
   },
   methods: {
     createPost(post: Post) {
       this.posts.push(post);
+      this.dialogVisible = false;
     },
+    removePost(post: Post) {
+      this.posts = this.posts.filter((p) => p.id !== post.id);
+    },
+    showDialog() {
+      this.dialogVisible = true;
+    },
+    async fetchPosts() {},
   },
 });
 </script>
