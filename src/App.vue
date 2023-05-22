@@ -14,6 +14,7 @@ import { defineComponent } from "vue";
 import PostForm from "@/components/PostForm.vue";
 import PostList from "@/components/PostList.vue";
 import type { Post } from "@/types/posts";
+import axios from "axios";
 
 export default defineComponent({
   components: {
@@ -58,7 +59,16 @@ export default defineComponent({
     showDialog() {
       this.dialogVisible = true;
     },
-    async fetchPosts() {},
+    async fetchPosts() {
+      try {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+        );
+        console.log(response);
+      } catch (e) {
+        alert(`Ошибка! ${e}`);
+      }
+    },
   },
 });
 </script>

@@ -15,7 +15,6 @@
 <script lang="ts">
 import { PropType, defineComponent } from "vue";
 import type { Post } from "@/types/posts";
-import MyButton from "./UI/MyButton.vue";
 
 export default defineComponent({
   props: {
