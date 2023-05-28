@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Страница с постами</h1>
-    <my-input v-model="searchQuery" placeholder="Поиск..."></my-input>
+    <my-input v-focus v-model="searchQuery" placeholder="Поиск..."></my-input>
     <div class="app__buttons">
       <my-button type="button" @click="showDialog">Создать пост</my-button>
       <my-select v-model="selectedSort" :options="sortOptions"></my-select>
@@ -26,7 +26,7 @@
         {{ pageNumber }}
       </div>
     </div> -->
-    <div ref="observer" class="observer"></div>
+    <div v-intersection="loadMorePosts" class="observer"></div>
   </div>
 </template>
 
@@ -74,8 +74,6 @@ export default defineComponent({
       this.page = newPage;
     },
     async fetchPosts() {
-      console.log("fetch");
-
       try {
         this.isPostsLoading = true;
         const response = await axios.get(
@@ -98,8 +96,6 @@ export default defineComponent({
       }
     },
     async loadMorePosts() {
-      console.log("load");
-
       try {
         this.page += 1;
         const response = await axios.get(
@@ -115,7 +111,6 @@ export default defineComponent({
           response.headers["x-total-count"] / this.limit
         );
         this.posts = [...this.posts, ...response.data];
-        console.log(this.posts);
       } catch (e) {
         alert(`Ошибка! ${e}`);
       }
@@ -124,22 +119,6 @@ export default defineComponent({
 
   mounted() {
     this.fetchPosts();
-    const options = {
-      rootMargin: "0px",
-      threshold: 1.0,
-    };
-
-    const callback = (
-      entries: IntersectionObserverEntry[],
-      observer: IntersectionObserver
-    ) => {
-      if (entries[0].isIntersecting) {
-        this.loadMorePosts();
-      }
-    };
-
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer as HTMLDivElement);
   },
   // watch: {
   // page() {

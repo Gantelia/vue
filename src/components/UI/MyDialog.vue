@@ -7,22 +7,15 @@
 </template>
 
 <script lang="ts">
+import toggleMixin from "@/mixins/toggleMixin";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "my-dialog",
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
+  mixins: [toggleMixin],
+  mounted() {
+    console.log("dialog mounted");
   },
-  methods: {
-    hideDialog() {
-      this.$emit("update:show", false);
-    },
-  },
-  emits: ["update:show"],
 });
 </script>
 

@@ -6,7 +6,13 @@
 </template>
 
 <script lang="ts">
-export default {};
+import NavBar from "@/components/UI/NavBar.vue";
+
+export default {
+  components: {
+    NavBar,
+  },
+};
 </script>
 
 <style>
